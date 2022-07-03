@@ -1,0 +1,40 @@
+.ProfileCard {
+    padding: 15px;
+    max-width: 430px;
+    width: 100%;
+}
+
+.Name {
+    font-size: 20px;
+    height: 20px;
+    font-weight: bold;
+}
+
+.Username {
+    color: gray;
+}
+
+.ProfilePictureContainer {
+    position: relative;
+}
+
+.NewProfilePicture {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0px;
+    border-radius: 50%;
+    background-color: transparent;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-property: background-color,color;
+    transition-duration: 0.15s;
+}
+
+.NewProfilePicture:hover {
+    background-color: rgb(80, 197, 109);
+    color: white;
+}

@@ -1,0 +1,25 @@
+$background-size: 38px;
+$gradient: radial-gradient(#444cf7 1px, transparent 1px);
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  padding: 30px;
+  font-family: Roboto, sans-serif;
+  background-color: #fafaff;
+  background-image: $gradient, $gradient;
+  background-size: $background-size $background-size;
+  background-position: 0px 0px, $background-size/2 $background-size/2;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,0 +1,27 @@
+.Card {
+    max-width: 430px;
+    width: 100%;
+    padding: 15px;
+}
+
+.Title {
+    font-size: 48px;
+    font-weight: bold;
+    height: 48px;
+    font-family: "The Nautigal";
+    text-align: center;
+}
+
+.ProfileLink {
+    flex-grow: 1;
+}
+
+.ProfileButton {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.LogoutButton {
+    min-width: 0;
+    padding: 6px;
+}
