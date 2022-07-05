@@ -1,4 +1,4 @@
-import { API_SERVER } from './config'
+import { get_backend_address } from './config'
 
 export default async function simpleGet(endpoint: string) {
     const options = {
@@ -7,7 +7,7 @@ export default async function simpleGet(endpoint: string) {
             Accept: 'application/json',
         }
     }
-    return fetch(`${API_SERVER}${endpoint}`, options)
+    return fetch(`${get_backend_address()}${endpoint}`, options)
         .then(res => res.json())
 }
 
@@ -20,6 +20,6 @@ export async function simplePost(endpoint: string, payload: object) {
         },
         body: JSON.stringify(payload)
     }
-    return fetch(`${API_SERVER}${endpoint}`, options)
+    return fetch(`${get_backend_address()}${endpoint}`, options)
         .then(res => res.json())
 }
