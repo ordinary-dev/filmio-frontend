@@ -1,4 +1,4 @@
-import {API_SERVER} from './config'
+import {get_backend_address} from './config'
 
 export type TokenResponse = {
     access_token: string,
@@ -17,7 +17,7 @@ const getToken = (username: string, password: string) => {
         body: data,
     }
 
-    return fetch(`${API_SERVER}/token`, options)
+    return fetch(`${get_backend_address()}/token`, options)
         .then(res => {
             if (res) return res.json()
         })

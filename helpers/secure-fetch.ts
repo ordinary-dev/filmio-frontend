@@ -1,5 +1,5 @@
 import Cookies from "js-cookie"
-import { API_SERVER } from './config'
+import { get_backend_address } from './config'
 
 export default async function secureGet(endpoint: string, token?: string) {
     token = token ? token : Cookies.get('access_token')
@@ -12,7 +12,7 @@ export default async function secureGet(endpoint: string, token?: string) {
                 Authorization: `Bearer ${token}`,
             }
         }
-        return fetch(`${API_SERVER}${endpoint}`, options)
+        return fetch(`${get_backend_address()}${endpoint}`, options)
             .then(res => res.json())
     }
 
@@ -31,7 +31,7 @@ export async function securePost(endpoint: string, payload: object, token?: stri
             },
             body: JSON.stringify(payload)
         }
-        return fetch(`${API_SERVER}${endpoint}`, options)
+        return fetch(`${get_backend_address()}${endpoint}`, options)
             .then(res => res.json())
     }
 
