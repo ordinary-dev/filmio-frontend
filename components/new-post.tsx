@@ -6,12 +6,12 @@ import router from "next/router"
 import React, { FormEvent } from "react"
 import { securePost } from '../helpers/secure-fetch'
 import styles from '../styles/new-post.module.scss'
-import { Photo } from "./post"
+import Photo from "./post/photo"
 
 type NewPostProps = {
     src?: string,
-    imgWidth: number,
-    imgHeight: number
+    imgWidth?: number,
+    imgHeight?: number
 }
 
 interface NewPostForm extends HTMLFormElement {
@@ -44,7 +44,7 @@ const NewPost: React.FC<NewPostProps> = (props: NewPostProps) => {
     if (props.src) return (
         <Paper className={styles.Card} elevation={4}>
             <Stack spacing='15px'>
-                <Photo src={props.src} width={props.imgWidth} height={props.imgHeight} />
+                <Photo src={props.src} />
                 <form onSubmit={handlePostSubmit}>
                     <Stack spacing='15px'>
                         <TextField required name='post_title' label="Title" />
