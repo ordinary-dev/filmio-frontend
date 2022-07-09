@@ -32,7 +32,7 @@ const Profile: NextPage = () => {
   const [posts, setPosts] = useState<Array<Post>>([])
   useEffect(() => {
     if (username) {
-      simpleGet(`/posts/${username}`)
+      simpleGet(`/users/${username}/posts`)
         .then((res: Array<Post>) => {
           setPostsCount(res.length)
           setPosts(res)
