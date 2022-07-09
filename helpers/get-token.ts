@@ -5,7 +5,7 @@ export type TokenResponse = {
     token_type: string
 }
 
-const getToken = (username: string, password: string) => {
+const getToken = async (username: string, password: string) => {
     const data = `grant_type=&username=${username}&password=${password}&scope=&client_id=&client_secret=`
     
     const options = {
