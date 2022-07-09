@@ -16,7 +16,7 @@ const PhotoCounter: React.FC<PhotoCounterProps> = (props: PhotoCounterProps) => 
     const [count, setCount] = useState<number>(0)
     useEffect(() => {
         if (props.username) {
-            simpleGet(`/posts/${props.username}/count`)
+            simpleGet(`/users/${props.username}/posts/count`)
                 .then((res: number) => {
                     setCount(res)
                 })

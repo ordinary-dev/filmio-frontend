@@ -34,7 +34,7 @@ const NewPost: React.FC<NewPostProps> = (props: NewPostProps) => {
             photo_id: props.src
         }
 
-        securePost('http://localhost:8000/posts/', data)
+        securePost('/posts/', data)
             .catch(error => { console.log('NewPost:', error) })
         target.reset()
         router.push('/')
