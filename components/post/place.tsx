@@ -17,7 +17,7 @@ const PlaceInfo = (props: PlaceInfoProps) => {
             </div>
         )
     }
-    return <div></div>
+    return <></>
 }
 
 export default PlaceInfo

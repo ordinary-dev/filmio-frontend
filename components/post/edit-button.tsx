@@ -23,7 +23,7 @@ const EditButton = (props: EditButtonProps) => {
             <Link href={`/edit/${encodeURI(props.postID)}`}><a>Edit</a></Link>
         </div>
     )
-    return <div></div>
+    return <></>
 }
 
 export default EditButton

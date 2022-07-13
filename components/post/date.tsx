@@ -15,7 +15,7 @@ const DateInfo = (props: DateInfoProps) => {
             </div>
         )
     }
-    return <div></div>
+    return <></>
 }
 
 export default DateInfo
