@@ -19,9 +19,7 @@ type PhotoResponse = {
 }
 
 const Upload = () => {
-    const [imgID, setImgID] = useState<string|undefined>(undefined)
-    const [imgHeight, setImgHeight] = useState<number>(0)
-    const [imgWidth, setImgWidth] = useState<number>(0)
+    const [postID, setPostID] = useState<string | undefined>(undefined)
     const [uplBtnText, setUplBtnText] = useState<string>('Select file')
 
     const handleSubmit = (event: FormEvent) => {
@@ -35,9 +33,7 @@ const Upload = () => {
             // Upload file and get it's filename
             securePostForm('/photos/', formData)
                 .then((result: PhotoResponse) => {
-                    setImgHeight(result.height)
-                    setImgWidth(result.width)
-                    setImgID(result.hash)
+                    setPostID(result.hash)
                 })
                 .catch(error => { console.log('Upload:', error) })
             target.reset()
@@ -73,8 +69,7 @@ const Upload = () => {
                     </form>
                 </Stack>
             </Paper>
-
-            <NewPost src={imgID} imgHeight={imgHeight} imgWidth={imgWidth} />
+            <NewPost postID={postID} />
         </Stack>
     )
 }
