@@ -2,12 +2,25 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
+    tags:
+      - '*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: |
+          ordinarydeveloper/filmio-frontend
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+    
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
 
@@ -26,4 +39,4 @@ jobs:
         push: true
         platforms: linux/amd64,linux/arm64
         file: production.Dockerfile
-        tags: ordinarydeveloper/filmio-frontend:latest
+        tags: ${{ steps.meta.outputs.tags }}
