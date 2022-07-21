@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost', 'filmio-backend'],
+    domains: ['localhost', 'filmio-backend', 'www.gravatar.com'],
   },
 }
 

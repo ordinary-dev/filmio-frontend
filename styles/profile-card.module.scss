@@ -14,27 +14,6 @@
     color: gray;
 }
 
-.ProfilePictureContainer {
-    position: relative;
-}
-
-.NewProfilePicture {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    top: 0px;
+.ProfilePhoto {
     border-radius: 50%;
-    background-color: transparent;
-    color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition-property: background-color,color;
-    transition-duration: 0.15s;
-}
-
-.NewProfilePicture:hover {
-    background-color: rgb(80, 197, 109);
-    color: white;
 }
