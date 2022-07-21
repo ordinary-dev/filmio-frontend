@@ -10,7 +10,7 @@ import { LoginForm } from './login-panel'
 
 /** Interface with name, username and password */
 interface RegisterForm extends LoginForm {
-    profileName: HTMLInputElement;
+    email: HTMLInputElement;
 }
 
 /** Form with name, username and password.
@@ -19,8 +19,8 @@ interface RegisterForm extends LoginForm {
 const RegistrationPanel: React.FC = () => (
     <form onSubmit={handleFormSubmit}>
         <Stack spacing={'15px'}>
-            <TextField required label='Name' name='profileName' />
             <TextField required label='Username' name='username' />
+            <TextField required label='Email' name='email' />
             <TextField required label='Password' type='password' name='password' />
             <Button type='submit' variant="contained">Register</Button>
         </Stack>
@@ -32,7 +32,7 @@ const handleFormSubmit = (e: FormEvent) => {
     const target = e.target as RegisterForm
     const data = {
         username: target.username.value,
-        name: target.profileName.value,
+        email: target.email.value,
         password: target.password.value
     }
     simplePost('/users', data)
