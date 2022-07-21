@@ -15,9 +15,10 @@ type ProfileCardProps = {
 }
 
 /** Shows basic profile information.
- * If the user is authorized, offers to upload a new photo or change the avatar */
+ * If the user is authorized, offers to upload a new photo */
 const ProfileCard: React.FC<ProfileCardProps> = (props: ProfileCardProps) => {
     const [allow_editing, setAllowEditing] = useState<boolean>(false)
+    const [profilePhoto, setProfilePhoto] = useState<string|undefined>(undefined)
 
     useEffect(() => {
         if (props.username) {
@@ -25,6 +26,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props: ProfileCardProps) => {
                 .then((res: ProfileResponse) => {
                     if (res && res.username) {
                         setAllowEditing(props.username === res.username)
+                        setProfilePhoto(res.profile_photo_url)
                     }
                 }).catch(error => { console.log(error) })
         }
@@ -33,7 +35,7 @@ const ProfileCard: React.FC<ProfileCardProps> = (props: ProfileCardProps) => {
     return (
         <Paper className={styles.ProfileCard}>
             <Stack direction='row' spacing='15px'>
-                <ProfilePicture allow_editing={allow_editing} />
+                <ProfilePicture url={profilePhoto} />
                 <Stack justifyContent='space-around'>
                     <ProfileName username={props.username} />
                     <Stack direction='row' spacing='15px'>

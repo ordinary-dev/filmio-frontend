@@ -6,12 +6,10 @@ import router from "next/router"
 import React, { FormEvent } from "react"
 import { securePost } from '../helpers/secure-fetch'
 import styles from '../styles/new-post.module.scss'
-import { Photo } from "./post"
+import Photo from "./post/photo"
 
 type NewPostProps = {
-    src?: string,
-    imgWidth: number,
-    imgHeight: number
+    postID?: string
 }
 
 interface NewPostForm extends HTMLFormElement {
@@ -29,27 +27,23 @@ const NewPost: React.FC<NewPostProps> = (props: NewPostProps) => {
         const target = event.target as NewPostForm
         const data = {
             title: target.post_title.value,
-            description: target.description.value,
-            place: target.place.value,
-            photo_id: props.src
+            photo_id: props.postID
         }
 
-        securePost('http://localhost:8000/posts/', data)
+        securePost('/posts/', data)
             .catch(error => { console.log('NewPost:', error) })
         target.reset()
         router.push('/')
             .catch(error => { console.log('NewPost / Router:', error) })
     }
 
-    if (props.src) return (
+    if (props.postID) return (
         <Paper className={styles.Card} elevation={4}>
             <Stack spacing='15px'>
-                <Photo src={props.src} width={props.imgWidth} height={props.imgHeight} />
+                <Photo src={props.postID} />
                 <form onSubmit={handlePostSubmit}>
                     <Stack spacing='15px'>
                         <TextField required name='post_title' label="Title" />
-                        <TextField required name='description' label="Description" />
-                        <TextField required name='place' label="Place" />
                         <Button type="submit" variant="contained">Save</Button>
                     </Stack>
                 </form>

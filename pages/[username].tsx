@@ -28,13 +28,11 @@ const Profile: NextPage = () => {
     }
   }, [router.isReady, router.query])
 
-  const [postsCount, setPostsCount] = useState<number>(0)
-  const [posts, setPosts] = useState<Array<Post>>([])
+  const [posts, setPosts] = useState<Array<string>>([])
   useEffect(() => {
     if (username) {
-      simpleGet(`/posts/${username}`)
-        .then((res: Array<Post>) => {
-          setPostsCount(res.length)
+      simpleGet(`/users/${username}/posts`)
+        .then((res: Array<string>) => {
           setPosts(res)
         })
         .catch(error => { console.log(error) })
@@ -50,16 +48,8 @@ const Profile: NextPage = () => {
       <PhotoCounter username={username} />
         {posts && Array.isArray(posts) && posts.map((post, index) => (
               <Post
-                key={`${post.timestamp}${post.photo_id}`}
-                src={post.photo_id}
-                title={post.title}
-                alt={post.title}
-                width={post.photo_width}
-                height={post.photo_height}
-                description={post.description}
-                index={postsCount - index}
-                timestamp={post.timestamp}
-                place={post.place} />
+                key={index}
+                postID={post}/>
         ))}
     </Stack>
   )

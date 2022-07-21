@@ -14,14 +14,7 @@ const RandomPost: React.FC = () => {
             .catch(error => { console.log('RandomPost:', error) })
     }, [])
     if (randomPost) return (
-        <Post
-            src={randomPost.photo_id}
-            width={randomPost.photo_width}
-            height={randomPost.photo_height}
-            title={randomPost.title}
-            description={randomPost.description}
-            timestamp={randomPost.timestamp}
-            place={randomPost.place} />
+        <Post postID={randomPost.photo_id} />
     )
     return <Post />
 }

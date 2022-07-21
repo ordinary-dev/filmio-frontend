@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack'
 import router from "next/router"
 import { ChangeEvent, FormEvent, useState } from "react"
 import NewPost from "../components/new-post"
-import { securePost } from '../helpers/secure-fetch'
+import { securePostForm } from '../helpers/secure-fetch'
 import styles from '../styles/upload.module.scss'
 
 interface FileUploadForm extends HTMLFormElement {
@@ -19,9 +19,7 @@ type PhotoResponse = {
 }
 
 const Upload = () => {
-    const [imgID, setImgID] = useState<string|undefined>(undefined)
-    const [imgHeight, setImgHeight] = useState<number>(0)
-    const [imgWidth, setImgWidth] = useState<number>(0)
+    const [postID, setPostID] = useState<string | undefined>(undefined)
     const [uplBtnText, setUplBtnText] = useState<string>('Select file')
 
     const handleSubmit = (event: FormEvent) => {
@@ -33,11 +31,9 @@ const Upload = () => {
             formData.append("file", file)
 
             // Upload file and get it's filename
-            securePost('http://localhost:8000/photos/', formData)
+            securePostForm('/photos/', formData)
                 .then((result: PhotoResponse) => {
-                    setImgHeight(result.height)
-                    setImgWidth(result.width)
-                    setImgID(result.hash)
+                    setPostID(result.hash)
                 })
                 .catch(error => { console.log('Upload:', error) })
             target.reset()
@@ -73,8 +69,7 @@ const Upload = () => {
                     </form>
                 </Stack>
             </Paper>
-
-            <NewPost src={imgID} imgHeight={imgHeight} imgWidth={imgWidth} />
+            <NewPost postID={postID} />
         </Stack>
     )
 }
