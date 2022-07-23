@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost', 'filmio-backend', 'www.gravatar.com'],
+    domains: ['localhost', 'filmio-backend', 'www.gravatar.com', 'api.comfycamp.space'],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
