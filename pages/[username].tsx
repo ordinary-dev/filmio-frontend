@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import PhotoCounter from '../components/photos-counter'
 import Post from '../components/post'
 import ProfileCard from '../components/profile-card'
-import simpleGet from '../helpers/simple-fetch'
+import secureGet from '../helpers/secure-fetch'
 
 type Post = {
   title: string,
@@ -31,7 +31,7 @@ const Profile: NextPage = () => {
   const [posts, setPosts] = useState<Array<string>>([])
   useEffect(() => {
     if (username) {
-      simpleGet(`/users/${username}/posts`)
+      secureGet(`/users/${username}/posts`)
         .then((res: Array<string>) => {
           setPosts(res)
         })

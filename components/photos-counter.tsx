@@ -1,7 +1,7 @@
 import { LinearProgress, Stack } from "@mui/material"
 import Paper from "@mui/material/Paper"
 import React, { useEffect, useState } from 'react'
-import simpleGet from "../helpers/simple-fetch"
+import secureGet from "../helpers/secure-fetch"
 import styles from '../styles/photos-counter.module.scss'
 
 type PhotoCounterProps = {
@@ -16,7 +16,7 @@ const PhotoCounter: React.FC<PhotoCounterProps> = (props: PhotoCounterProps) => 
     const [count, setCount] = useState<number>(0)
     useEffect(() => {
         if (props.username) {
-            simpleGet(`/users/${props.username}/posts/count`)
+            secureGet(`/users/${props.username}/posts/count`)
                 .then((res: number) => {
                     setCount(res)
                 })

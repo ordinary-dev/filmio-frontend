@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 import router from 'next/router'
 import React, { FormEvent } from 'react'
 import getToken, { TokenResponse } from '../../helpers/get-token'
-import { simplePost } from '../../helpers/simple-fetch'
+import { securePost } from '../../helpers/secure-fetch'
 import { LoginForm } from './login-panel'
 
 /** Interface with name, username and password */
@@ -35,7 +35,7 @@ const handleFormSubmit = (e: FormEvent) => {
         email: target.email.value,
         password: target.password.value
     }
-    simplePost('/users', data)
+    securePost('/users', data)
         .then(() => {
             tryToLogin(target.username.value, target.password.value)
         })

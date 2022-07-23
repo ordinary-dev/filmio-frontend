@@ -1,5 +1,5 @@
 import Post from './post'
-import simpleGet from '../helpers/simple-fetch'
+import secureGet from '../helpers/secure-fetch'
 import { useEffect, useState } from 'react'
 import { PostResponse } from '../types/post-response'
 
@@ -7,7 +7,7 @@ import { PostResponse } from '../types/post-response'
 const RandomPost: React.FC = () => {
     const [randomPost, setRandomPost] = useState<PostResponse | null>(null)
     useEffect(() => {
-        simpleGet('/posts/random')
+        secureGet('/posts/random')
             .then((post: PostResponse) => {
                 if (post) setRandomPost(post)
             })
