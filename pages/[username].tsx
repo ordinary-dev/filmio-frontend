@@ -21,8 +21,16 @@ const Profile: NextPage = () => {
 
     const { data, error } = useSWR<Array<string>, Error>(username ? getURL(`/users/${username}/posts`) : null)
     
-    if (error) return <div>Error</div>
-    if (!username || !data) return <div>Loading</div>
+    if (error) return (
+        <Stack direction='column' alignItems='center'>
+            <div>Error</div>
+        </Stack>
+    )
+    if (!username || !data) return (
+        <Stack direction='column' alignItems='center'>
+            <div>Loading</div>
+        </Stack>
+    )
 
     return (
         <Stack direction='column' alignItems='center' spacing='30px'>

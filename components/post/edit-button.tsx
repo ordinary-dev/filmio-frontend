@@ -15,8 +15,8 @@ const EditButton = (props: EditButtonProps) => {
     const url = getURL('/me/')
     const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)
 
-    if (error) return <div>Error</div>
-    if (!data) return <div>Loading...</div>
+    if (error) return <div className={styles.Info}>Error</div>
+    if (!data) return <div className={styles.Info}>Loading...</div>
 
     const editURL = `/edit/${encodeURI(props.postID)}`
 

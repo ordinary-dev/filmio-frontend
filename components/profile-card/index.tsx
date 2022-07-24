@@ -42,7 +42,11 @@ const ProfileCard = (props: ProfileCardProps) => {
                                 </Button>
                             </a>
                         </Link>}
-                        <Link href='/' passHref><a><Button>Main page</Button></a></Link>
+                        <Link href='/' passHref>
+                            <a>
+                                <Button>Main page</Button>
+                            </a>
+                        </Link>
                     </Stack>
                 </Stack>
             </Stack>

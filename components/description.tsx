@@ -69,7 +69,11 @@ const ProfileButton = () => {
     const url = getURL('/me/')
     const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)        
 
-    if (error) return <div>Error: {error.message}</div>
+    if (error) return (
+        <Button className={styles.ProfileButton} disabled={true} variant='contained'>
+            Error: {error.message}
+        </Button>
+    )
     if (!data) return (
         <Button className={styles.ProfileButton} disabled={true} variant='contained'>
             Loading...
