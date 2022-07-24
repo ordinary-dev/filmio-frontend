@@ -5,11 +5,14 @@ import Cookies from 'js-cookie'
 import Link from 'next/link'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { ProfileResponse } from '../types/profile-response'
-import secureGet from '../helpers/secure-fetch'
+import { getURL } from '../helpers/config'
+import { advFetch } from '../helpers/fetchers'
 import styles from '../styles/description.module.scss'
+import useSWR from 'swr'
+
 
 /** Panel with site name, description and buttons for further actions */
-const Description: React.FC = () => {
+const Description = () => {
     const [token, setToken] = useState<string>('')
     useEffect(() => {
         const tokenCookie = Cookies.get('access_token')
@@ -61,33 +64,27 @@ const ActionPanel: React.FC<ActionPanelProps> = (props: ActionPanelProps) => {
 /** Button with a link to user's profile.
  * The button makes a request to the server to find out the current username.
  */
-const ProfileButton: React.FC = () => {
+const ProfileButton = () => {
     /* Try to get the username */
-    const [username, setUsername] = useState<string | null>(null)
-    useEffect(() => {
-        secureGet('/me/')
-            .then((response: ProfileResponse) => {
-                setUsername(response.username)
-            })
-            .catch(error => {
-                console.log('Description / ProfileButton:', error)
-            })
-    }, [])
+    const url = getURL('/me/')
+    const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)        
+
+    if (error) return <div>Error: {error.message}</div>
+    if (!data) return (
+        <Button className={styles.ProfileButton} disabled={true} variant='contained'>
+            Loading...
+        </Button>
+    )
+
     /* If the username was successfully obtained  */
-    if (username) return (
-        <Link href={`/${username}`} passHref>
+    return (
+        <Link href={`/${data.username}`} passHref>
             <a className={styles.ProfileLink}>
                 <Button className={styles.ProfileButton} variant='contained'>
                     My profile
                 </Button>
             </a>
         </Link>
-    )
-    /* Return inactive button if the username is unknown */
-    return (
-        <Button className={styles.ProfileButton} disabled={true} variant='contained'>
-            My profile
-        </Button>
     )
 }
 

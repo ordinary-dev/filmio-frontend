@@ -7,26 +7,25 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Post from '../../components/post'
-import secureGet from '../../helpers/secure-fetch'
 import { PostResponse } from '../../types/post-response'
 import styles from '../../styles/place.module.scss'
-
+import { getURL } from '../../helpers/config'
+import useSWR from 'swr'
 
 const PlaceSearchPage: NextPage = () => {
     const router = useRouter()
     const [place, setPlace] = useState<string | undefined>(undefined)
-    const [posts, setPosts] = useState<Array<PostResponse>>([])
 
     useEffect(() => {
         if (router.isReady && router.query.place) {
             setPlace(router.query.place.toString())
-            secureGet(`/posts/location/${router.query.place.toString()}`)
-                .then((res: Array<PostResponse>) => {
-                    setPosts(res)
-                })
-                .catch(err => console.log('PlaceSearch: ', err))
         }
     }, [router.isReady, router.query])
+
+    const { data, error } = useSWR<Array<PostResponse>, Error>(place ? getURL(`/posts/location/${place}`) : null)
+
+    if (error) return <div>Error</div>
+    if (!data) return <div>Loading...</div>
 
     return (
         <Stack direction='column' alignItems='center' spacing='30px'>
@@ -41,7 +40,7 @@ const PlaceSearchPage: NextPage = () => {
                     <div className={styles.Title}>Posts from {place}</div>
                 </Stack>
             </Paper>
-            {posts.map(post => (
+            {data.map(post => (
                 <Post postID={post.photo_id} key={post.photo_id} />
             ))}
         </Stack>

@@ -1,11 +1,11 @@
 import { LinearProgress, Stack } from "@mui/material"
 import Paper from "@mui/material/Paper"
-import React, { useEffect, useState } from 'react'
-import secureGet from "../helpers/secure-fetch"
+import { getURL } from "../helpers/config"
+import useSWR from 'swr'
 import styles from '../styles/photos-counter.module.scss'
 
 type PhotoCounterProps = {
-    username?: string
+    username: string
 }
 
 /** The photo counter makes a request to the server and
@@ -13,21 +13,19 @@ type PhotoCounterProps = {
  * The maximum number of photos is 36.
  */
 const PhotoCounter: React.FC<PhotoCounterProps> = (props: PhotoCounterProps) => {
-    const [count, setCount] = useState<number>(0)
-    useEffect(() => {
-        if (props.username) {
-            secureGet(`/users/${props.username}/posts/count`)
-                .then((res: number) => {
-                    setCount(res)
-                })
-                .catch(error => { console.log('PhotosCounter:', error) })
-        }
-    }, [props.username])
+    const endpoint = `/users/${props.username}/posts/count`
+    const url = getURL(endpoint)
+            
+    const { data, error } = useSWR<number, Error>(url)
+
+    if (error) return <div>Error</div>
+    if (!data) return <div>Loading...</div>
+    
     return (
         <Paper className={styles.Card} elevation={4}>
             <Stack spacing='15px' direction='row' alignItems={'center'}>
-                <div>Photos: {count}/36</div>
-                <LinearProgress className={styles.Progress} variant="determinate" value={count / 36 * 100} />
+                <div>Photos: {data}/36</div>
+                <LinearProgress className={styles.Progress} variant="determinate" value={data / 36 * 100} />
             </Stack>
         </Paper>
     )

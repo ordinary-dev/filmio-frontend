@@ -3,15 +3,15 @@ import Paper from "@mui/material/Paper"
 import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import router from "next/router"
-import React, { FormEvent, useEffect, useState } from "react"
-import secureGet, { securePut } from '../helpers/secure-fetch'
+import React, { FormEvent } from "react"
+import { getURL } from '../helpers/config'
+import Cookies from 'js-cookie'
 import styles from '../styles/new-post.module.scss'
 import { PostResponse } from "../types/post-response"
+import useSWR from 'swr'
 
 type NewPostProps = {
-    src?: string,
-    imgWidth?: number,
-    imgHeight?: number
+    src: string
 }
 
 interface NewPostForm extends HTMLFormElement {
@@ -20,12 +20,15 @@ interface NewPostForm extends HTMLFormElement {
     place: HTMLInputElement;
 }
 
-/** Form for filling in data about a new post.
- * Appears if there is an id of the uploaded photo.
+/** Form for filling in data about a post.
  * */
 const EditPostForm: React.FC<NewPostProps> = (props: NewPostProps) => {
     const handlePostSubmit = (event: FormEvent) => {
         event.preventDefault()
+        
+        const token = Cookies.get('access_token')
+        if (!token) return
+
         const target = event.target as NewPostForm
         const data = {
             title: target.post_title.value,
@@ -33,48 +36,49 @@ const EditPostForm: React.FC<NewPostProps> = (props: NewPostProps) => {
             place: target.place.value,
             photo_id: props.src
         }
-        if (props.src) {
-            securePut(`/posts/${props.src}`, data)
-                .catch(error => { console.log('NewPost:', error) })
-            target.reset()
-            router.push('/')
-                .catch(error => { console.log('NewPost / Router:', error) })
+        const endpoint = `/posts/${props.src}`
+        const url = getURL(endpoint)
+        const options = {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         }
+        fetch(url, options)
+            .then(res => res.json())
+            .then(res => console.log('Response:', res))
+            .catch(error => { console.log('NewPost:', error) })
+        target.reset()
+        router.push('/')
+            .catch(error => { console.log('NewPost / Router:', error) })
     }
 
-    const [title, setTitle] = useState<string | undefined>(undefined)
-    const [description, setDescription] = useState<string | undefined>(undefined)
-    const [place, setPlace] = useState<string | undefined>(undefined)
-    const [loaded, setLoaded] = useState<boolean>(false)
 
-    useEffect(() => {
-        if (props.src) {
-            secureGet(`/posts/${props.src}`)
-                .then((res: PostResponse) => {
-                    setTitle(res.title)
-                    setDescription(res.description)
-                    setPlace(res.place)
-                    setLoaded(true)
-                })
-                .catch(error => { console.log('EditPostForm:', error) })
-        }
-    }, [props.src])
-
-    if (props.src && loaded) return (
+    const endpoint = `/posts/${props.src}`
+    const url = getURL(endpoint)
+            
+    const { data, error } = useSWR<PostResponse, Error>(url)
+            
+    if (error) return <div>Error</div>
+    if (!data) return <div>Loading...</div>
+            
+    return (
         <Paper className={styles.Card} elevation={4}>
             <Stack spacing='15px'>
                 <form onSubmit={handlePostSubmit}>
                     <Stack spacing='15px'>
-                        <TextField required name='post_title' label="Title" defaultValue={title} />
-                        <TextField name='description' label="Description" defaultValue={description} />
-                        <TextField name='place' label="Place" defaultValue={place} />
+                        <TextField required name='post_title' label="Title" defaultValue={data.title} />
+                        <TextField name='description' label="Description" defaultValue={data.description} />
+                        <TextField name='place' label="Place" defaultValue={data.place} />
                         <Button type="submit" variant="contained">Save</Button>
                     </Stack>
                 </form>
             </Stack>
         </Paper>
     )
-    return <div></div>
 }
 
 export default EditPostForm

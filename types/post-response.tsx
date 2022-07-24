@@ -1,8 +1,8 @@
 export type PostResponse = {
-    photo_id?: string,
-    title?: string,
-    author?: string,
+    photo_id: string,
+    title: string,
+    author: string,
     description?: string,
-    timestamp?: number,
+    timestamp: number,
     place?: string
 }

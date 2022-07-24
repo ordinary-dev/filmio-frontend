@@ -6,53 +6,36 @@ import { useEffect, useState } from 'react'
 import PhotoCounter from '../components/photos-counter'
 import Post from '../components/post'
 import ProfileCard from '../components/profile-card'
-import secureGet from '../helpers/secure-fetch'
-
-type Post = {
-  title: string,
-  description: string,
-  place: string,
-  photo_id: string,
-  photo_width: number,
-  photo_height: number,
-  timestamp: number
-}
+import useSWR from 'swr'
+import { getURL } from '../helpers/config'
 
 const Profile: NextPage = () => {
-  const router = useRouter()
-  const [username, setUsername] = useState<string|undefined>(undefined);
+    const router = useRouter()
+    const [username, setUsername] = useState<string|undefined>(undefined);
 
-  useEffect(() => {
-    if (router.isReady && router.query.username) {
-      setUsername(router.query.username.toString())
-    }
-  }, [router.isReady, router.query])
+    useEffect(() => {
+        if (router.isReady && router.query.username) {
+            setUsername(router.query.username.toString())
+        }
+    }, [router.isReady, router.query])
 
-  const [posts, setPosts] = useState<Array<string>>([])
-  useEffect(() => {
-    if (username) {
-      secureGet(`/users/${username}/posts`)
-        .then((res: Array<string>) => {
-          setPosts(res)
-        })
-        .catch(error => { console.log(error) })
-    }
-  }, [username])
+    const { data, error } = useSWR<Array<string>, Error>(username ? getURL(`/users/${username}/posts`) : null)
+    
+    if (error) return <div>Error</div>
+    if (!username || !data) return <div>Loading</div>
 
-  return (
-    <Stack direction='column' alignItems='center' spacing='30px'>
-      <Head>
-        <title>{getTitle(username)}</title>
-      </Head>
-      <ProfileCard username={username} />
-      <PhotoCounter username={username} />
-        {posts && Array.isArray(posts) && posts.map((post, index) => (
-              <Post
-                key={index}
-                postID={post}/>
-        ))}
-    </Stack>
-  )
+    return (
+        <Stack direction='column' alignItems='center' spacing='30px'>
+            <Head>
+                <title>{getTitle(username)}</title>
+            </Head>
+            {username && <ProfileCard username={username} />}
+            {username && <PhotoCounter username={username} />}
+            {data.map((post, index) => (
+                <Post key={index} postID={post}/>
+            ))}
+        </Stack>
+    )
 }
 
 const getTitle = (username: string | undefined) => {

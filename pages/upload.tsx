@@ -5,8 +5,9 @@ import Stack from '@mui/material/Stack'
 import router from "next/router"
 import { ChangeEvent, FormEvent, useState } from "react"
 import NewPost from "../components/new-post"
-import { securePostForm } from '../helpers/secure-fetch'
 import styles from '../styles/upload.module.scss'
+import { getURL } from '../helpers/config'
+import Cookies from 'js-cookie'
 
 interface FileUploadForm extends HTMLFormElement {
     file: HTMLInputElement;
@@ -24,6 +25,10 @@ const Upload = () => {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault()
+
+        const token = Cookies.get('access_token')
+        if (!token) return
+
         const target = event.target as FileUploadForm
         if (target.file.files && target.file.files.length >= 1) {
             const file = target.file.files[0]
@@ -31,7 +36,17 @@ const Upload = () => {
             formData.append("file", file)
 
             // Upload file and get it's filename
-            securePostForm('/photos/', formData)
+            const url = getURL('/photos/')
+            const options = {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                },
+                body: formData
+            }
+            fetch(url, options)
+                .then(res => res.json())
                 .then((result: PhotoResponse) => {
                     setPostID(result.hash)
                 })

@@ -9,3 +9,7 @@ export const get_backend_address = () => {
     const backendPort   = getConfig(process.env.NEXT_PUBLIC_BACKEND_PORT, '8000')
     return `${backendScheme}://${backendHost}:${backendPort}`
 }
+
+export const getURL = (endpoint: string) => {
+    return `${get_backend_address()}${endpoint}`
+}

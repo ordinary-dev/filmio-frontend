@@ -7,13 +7,13 @@ type ProfilePictureProps = {
     url?: string
 }
 
-const ProfilePicture: React.FC<ProfilePictureProps> = (props: ProfilePictureProps) => {
+const ProfilePicture = (props: ProfilePictureProps) => {
     if (props.url) return (
         <Image className={styles.ProfilePhoto} alt='Profile picture' src={props.url} width={80} height={80} />
     )
 
     return (
-        <Skeleton variant="circular" width={100} height={100} />
+        <Skeleton variant="circular" width={80} height={80} />
     )
 }
 
