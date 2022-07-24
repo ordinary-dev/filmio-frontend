@@ -5,8 +5,9 @@ import Cookies from 'js-cookie'
 import router from 'next/router'
 import React, { FormEvent } from 'react'
 import getToken, { TokenResponse } from '../../helpers/get-token'
-import { simplePost } from '../../helpers/simple-fetch'
 import { LoginForm } from './login-panel'
+import { getURL } from '../../helpers/config'
+
 
 /** Interface with name, username and password */
 interface RegisterForm extends LoginForm {
@@ -35,7 +36,17 @@ const handleFormSubmit = (e: FormEvent) => {
         email: target.email.value,
         password: target.password.value
     }
-    simplePost('/users', data)
+    const url = getURL('/users')
+    const options = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }
+    fetch(url, options)
+        .then(res => res.json())
         .then(() => {
             tryToLogin(target.username.value, target.password.value)
         })

@@ -7,41 +7,39 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Post from '../../components/post'
-import secureGet from '../../helpers/secure-fetch'
 import { PostResponse } from '../../types/post-response'
-import styles from '../../styles/place.module.scss'
-
+import { getURL } from '../../helpers/config'
+import useSWR from 'swr'
 
 const PlaceSearchPage: NextPage = () => {
     const router = useRouter()
     const [place, setPlace] = useState<string | undefined>(undefined)
-    const [posts, setPosts] = useState<Array<PostResponse>>([])
 
     useEffect(() => {
         if (router.isReady && router.query.place) {
             setPlace(router.query.place.toString())
-            secureGet(`/posts/location/${router.query.place.toString()}`)
-                .then((res: Array<PostResponse>) => {
-                    setPosts(res)
-                })
-                .catch(err => console.log('PlaceSearch: ', err))
         }
     }, [router.isReady, router.query])
+
+    const { data, error } = useSWR<Array<PostResponse>, Error>(place ? getURL(`/posts/location/${place}`) : null)
+
+    if (error) return <div>Error</div>
+    if (!data) return <div>Loading...</div>
 
     return (
         <Stack direction='column' alignItems='center' spacing='30px'>
             <Head>
                 <title>Film.io</title>
             </Head>
-            <Paper className={styles.Card}>
+            <Paper className="max-w-md w-full p-4">
                 <Stack direction='row' alignItems='center' spacing='15px'>
-                    <Button className={styles.Button} onClick={() => router.back()}>
+                    <Button className="min-w-0 p-1.5" onClick={() => router.back()}>
                         <ArrowBackIcon />
                     </Button>
-                    <div className={styles.Title}>Posts from {place}</div>
+                    <div className="font-bold">Posts from {place}</div>
                 </Stack>
             </Paper>
-            {posts.map(post => (
+            {data.map(post => (
                 <Post postID={post.photo_id} key={post.photo_id} />
             ))}
         </Stack>

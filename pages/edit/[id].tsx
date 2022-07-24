@@ -22,8 +22,8 @@ const EditPage: NextPage = () => {
             <Head>
                 <title>Edit post | Film.io</title>
             </Head>
-            <Post postID={id} />
-            <EditPostForm src={id} />
+            {id && <Post postID={id} /> }
+            {id && <EditPostForm src={id} />}
         </Stack>
     )
 }

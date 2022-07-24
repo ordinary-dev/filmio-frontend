@@ -5,20 +5,22 @@ import Cookies from 'js-cookie'
 import Link from 'next/link'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { ProfileResponse } from '../types/profile-response'
-import secureGet from '../helpers/secure-fetch'
-import styles from '../styles/description.module.scss'
+import { getURL } from '../helpers/config'
+import { advFetch } from '../helpers/fetchers'
+import useSWR from 'swr'
+
 
 /** Panel with site name, description and buttons for further actions */
-const Description: React.FC = () => {
+const Description = () => {
     const [token, setToken] = useState<string>('')
     useEffect(() => {
         const tokenCookie = Cookies.get('access_token')
         if (tokenCookie) setToken(tokenCookie)
     }, [])
     return (
-        <Paper className={styles.Card} elevation={4}>
+        <Paper className="p-4 max-w-md w-full" elevation={4}>
             <Stack spacing='15px'>
-                <div className={styles.Title}>Film.io</div>
+                <div className="italic font-bold text-xl text-center">Film.io</div>
                 <div>
                     Your personal album.
                     Don&apos;t forget that you can only upload 36 photos.
@@ -50,7 +52,7 @@ const ActionPanel: React.FC<ActionPanelProps> = (props: ActionPanelProps) => {
     return (
         <Link href='/login' passHref>
             <a>
-                <Button className={styles.ProfileButton} variant='contained'>
+                <Button className="w-full" variant='contained'>
                     Get started
                 </Button>
             </a>
@@ -61,33 +63,31 @@ const ActionPanel: React.FC<ActionPanelProps> = (props: ActionPanelProps) => {
 /** Button with a link to user's profile.
  * The button makes a request to the server to find out the current username.
  */
-const ProfileButton: React.FC = () => {
+const ProfileButton = () => {
     /* Try to get the username */
-    const [username, setUsername] = useState<string | null>(null)
-    useEffect(() => {
-        secureGet('/me/')
-            .then((response: ProfileResponse) => {
-                setUsername(response.username)
-            })
-            .catch(error => {
-                console.log('Description / ProfileButton:', error)
-            })
-    }, [])
+    const url = getURL('/me/')
+    const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)        
+
+    if (error) return (
+        <Button className="w-full" disabled={true} variant='contained'>
+            Error: {error.message}
+        </Button>
+    )
+    if (!data) return (
+        <Button className="w-full" disabled={true} variant='contained'>
+            Loading...
+        </Button>
+    )
+
     /* If the username was successfully obtained  */
-    if (username) return (
-        <Link href={`/${username}`} passHref>
-            <a className={styles.ProfileLink}>
-                <Button className={styles.ProfileButton} variant='contained'>
+    return (
+        <Link href={`/${data.username}`} passHref>
+            <a className="grow">
+                <Button className="w-full" variant='contained'>
                     My profile
                 </Button>
             </a>
         </Link>
-    )
-    /* Return inactive button if the username is unknown */
-    return (
-        <Button className={styles.ProfileButton} disabled={true} variant='contained'>
-            My profile
-        </Button>
     )
 }
 
@@ -104,7 +104,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = (props: LogoutButtonProps) => 
         if (props.setToken) props.setToken('')
     }
     return (
-        <Button onClick={handleClick} className={styles.LogoutButton}>
+        <Button onClick={handleClick} className="p-1.5 min-w-0">
             <LogoutIcon />
         </Button>
     )

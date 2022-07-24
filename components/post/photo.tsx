@@ -1,51 +1,39 @@
-import Skeleton from '@mui/material/Skeleton'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { get_backend_address } from '../../helpers/config'
-import secureGet from '../../helpers/secure-fetch'
-import styles from '../../styles/post.module.scss'
+import useSWR from 'swr'
+import { getURL } from '../../helpers/config'
 
 type PhotoProps = {
-    src?: string,
+    src: string,
     alt?: string
 }
 
 type PhotoInfo = {
-    height?: number,
-    width?: number
+    height: number,
+    width: number
 }
 
-export const Photo: React.FC<PhotoProps> = (props: PhotoProps) => {
+const Photo = (props: PhotoProps) => {
     const alt = props.alt ? props.alt : 'Photo'
     let width = 400
     let height = 300
-    const [photoInfo, setPhotoInfo] = useState<PhotoInfo>({})
 
-    useEffect(() => {
-        if (props.src) {
-            secureGet(`/photos/${props.src}/info`)
-                .then((res: PhotoInfo) => {
-                    if (res) setPhotoInfo(res)
-                })
-                .catch(error => { console.log('Post / Photo:', error) })
-        }
-    }, [props.src])
+    const infoUrl = getURL(`/photos/${props.src}/info`)
+    const { data, error } = useSWR<PhotoInfo, Error>(infoUrl)
 
-    if (photoInfo.width && photoInfo.height) {
-        const div = photoInfo.width > photoInfo.height ? photoInfo.width / width : photoInfo.height / height
-        width = photoInfo.width / div
-        height = photoInfo.height / div
-    }
+    if (error) return <div>Error</div>
+    if (!data) return <div>Loading...</div>
 
-    if (photoInfo.width && photoInfo.height && props.src) {
-        const src = props.src.startsWith('http://') ? props.src : `${get_backend_address()}/photos/` + props.src + '/content'
-        return (
-            <div className={styles.Placeholder}>
-                <Image src={src} width={width} height={height} alt={alt} />
-            </div>
-        )
-    }
-    return <Skeleton variant="rectangular" width={width} height={height} />
+    // Calculate new width and height
+    const div = data.width > data.height ? data.width / width : data.height / height
+    width = data.width / div
+    height = data.height / div
+
+    const photoUrl = getURL(`/photos/${props.src}/content`)
+    return (
+        <div className="mx-auto">
+            <Image src={photoUrl} width={width} height={height} alt={alt} />
+        </div>
+    )
 }
 
 export default Photo

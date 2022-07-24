@@ -1,28 +1,32 @@
-import styles from '../../styles/post.module.scss'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import secureGet from '../../helpers/secure-fetch'
+import { getURL } from '../../helpers/config'
+import { advFetch } from '../../helpers/fetchers'
 import { ProfileResponse } from '../../types/profile-response'
+import useSWR from 'swr'
+
 
 type EditButtonProps = {
-    author?: string,
-    postID?: string
+    author: string,
+    postID: string
 }
 
 const EditButton = (props: EditButtonProps) => {
-    const [myUsername, setMyUsername] = useState<string | undefined>(undefined)
-    useEffect(() => {
-        secureGet('/me')
-            .then((res: ProfileResponse) => {
-                if (res) setMyUsername(res.username)
-            })
-            .catch(error => { console.log('Post:', error) })
-    }, [])
-    if (props.author === myUsername && props.postID) return (
-        <div className={styles.Info}>
-            <Link href={`/edit/${encodeURI(props.postID)}`}><a>Edit</a></Link>
+    const url = getURL('/me/')
+    const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)
+
+    if (error) return <div className="text-xs font-mono">Error</div>
+    if (!data) return <div className="text-xs font-mono">Loading...</div>
+
+    const editURL = `/edit/${encodeURI(props.postID)}`
+
+    if (props.author === data.username) return (
+        <div className="text-xs font-mono">
+            <Link href={editURL} passHref>
+                <a>Edit</a>
+            </Link>
         </div>
     )
+    
     return <></>
 }
 
