@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack'
 import router from "next/router"
 import { ChangeEvent, FormEvent, useState } from "react"
 import NewPost from "../components/new-post"
-import styles from '../styles/upload.module.scss'
 import { getURL } from '../helpers/config'
 import Cookies from 'js-cookie'
 
@@ -63,21 +62,21 @@ const Upload = () => {
 
     return (
         <Stack spacing='30px' alignItems={'center'}>
-            <Paper className={styles.Card} elevation={4}>
+            <Paper className="max-w-md w-full p-4" elevation={4}>
                 <Stack spacing={'15px'}>
                     <Stack direction='row' alignItems='center' spacing='15px'>
-                        <Button type="submit" onClick={() => router.back()}>
+                        <Button className="min-w-0 p-1.5" type="submit" onClick={() => router.back()}>
                             <ArrowBackIcon />
                         </Button>
-                        <div className={styles.Title}>Upload photo</div>
+                        <div className="text-xl font-bold">Upload photo</div>
                     </Stack>
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={'15px'}>
-                            <div className={styles.FileInputContainer}>
-                                <Button className={styles.FileInputButton} variant='outlined'>
+                            <div className="relative">
+                                <Button className="w-full h-16" variant='outlined'>
                                     {uplBtnText}
                                 </Button>
-                                <input onChange={handleInputChange} className={styles.FileInput} name='file' type="file"></input>
+                                <input onChange={handleInputChange} className="w-full h-16 absolute top-0 left-0 opacity-0 cursor-pointer" name='file' type="file"></input>
                             </div>
                             <Button type="submit" variant="contained">Upload</Button>
                         </Stack>

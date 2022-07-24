@@ -6,7 +6,6 @@ import router from "next/router"
 import React, { FormEvent } from "react"
 import { getURL } from '../helpers/config'
 import Cookies from 'js-cookie'
-import styles from '../styles/new-post.module.scss'
 import { PostResponse } from "../types/post-response"
 import useSWR from 'swr'
 
@@ -66,7 +65,7 @@ const EditPostForm: React.FC<NewPostProps> = (props: NewPostProps) => {
     if (!data) return <div>Loading...</div>
             
     return (
-        <Paper className={styles.Card} elevation={4}>
+        <Paper className="w-full max-w-md p-4" elevation={4}>
             <Stack spacing='15px'>
                 <form onSubmit={handlePostSubmit}>
                     <Stack spacing='15px'>

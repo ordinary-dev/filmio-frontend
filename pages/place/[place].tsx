@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Post from '../../components/post'
 import { PostResponse } from '../../types/post-response'
-import styles from '../../styles/place.module.scss'
 import { getURL } from '../../helpers/config'
 import useSWR from 'swr'
 
@@ -32,12 +31,12 @@ const PlaceSearchPage: NextPage = () => {
             <Head>
                 <title>Film.io</title>
             </Head>
-            <Paper className={styles.Card}>
+            <Paper className="max-w-md w-full p-4">
                 <Stack direction='row' alignItems='center' spacing='15px'>
-                    <Button className={styles.Button} onClick={() => router.back()}>
+                    <Button className="min-w-0 p-1.5" onClick={() => router.back()}>
                         <ArrowBackIcon />
                     </Button>
-                    <div className={styles.Title}>Posts from {place}</div>
+                    <div className="font-bold">Posts from {place}</div>
                 </Stack>
             </Paper>
             {data.map(post => (

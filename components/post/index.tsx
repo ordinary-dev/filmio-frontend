@@ -1,6 +1,5 @@
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
-import styles from '../../styles/post.module.scss'
 import { PostResponse } from '../../types/post-response'
 import DateInfo from './date'
 import Description from './description'
@@ -24,13 +23,13 @@ const Post = (props: PostProps) => {
     if (!data) return <div>Loading...</div>
 
     return (
-        <Paper className={styles.Card} elevation={4}>
+        <Paper className="p-4 w-full max-w-md" elevation={4}>
             <Stack spacing='15px'>
                 <Photo src={data.photo_id} />
                 <Title text={data.title} />
                 <Description text={data.description} />
 
-                <Stack spacing='15px' direction='row'>
+                <Stack spacing='15px' direction='row' alignItems='center'>
                     <DateInfo timestamp={data.timestamp} />
                     <PlaceInfo place={data.place} />
                     <EditButton author={data.author} postID={props.postID} />

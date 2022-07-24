@@ -7,7 +7,6 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { ProfileResponse } from '../types/profile-response'
 import { getURL } from '../helpers/config'
 import { advFetch } from '../helpers/fetchers'
-import styles from '../styles/description.module.scss'
 import useSWR from 'swr'
 
 
@@ -19,9 +18,9 @@ const Description = () => {
         if (tokenCookie) setToken(tokenCookie)
     }, [])
     return (
-        <Paper className={styles.Card} elevation={4}>
+        <Paper className="p-4 max-w-md w-full" elevation={4}>
             <Stack spacing='15px'>
-                <div className={styles.Title}>Film.io</div>
+                <div className="italic font-bold text-xl text-center">Film.io</div>
                 <div>
                     Your personal album.
                     Don&apos;t forget that you can only upload 36 photos.
@@ -53,7 +52,7 @@ const ActionPanel: React.FC<ActionPanelProps> = (props: ActionPanelProps) => {
     return (
         <Link href='/login' passHref>
             <a>
-                <Button className={styles.ProfileButton} variant='contained'>
+                <Button className="w-full" variant='contained'>
                     Get started
                 </Button>
             </a>
@@ -70,12 +69,12 @@ const ProfileButton = () => {
     const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)        
 
     if (error) return (
-        <Button className={styles.ProfileButton} disabled={true} variant='contained'>
+        <Button className="w-full" disabled={true} variant='contained'>
             Error: {error.message}
         </Button>
     )
     if (!data) return (
-        <Button className={styles.ProfileButton} disabled={true} variant='contained'>
+        <Button className="w-full" disabled={true} variant='contained'>
             Loading...
         </Button>
     )
@@ -83,8 +82,8 @@ const ProfileButton = () => {
     /* If the username was successfully obtained  */
     return (
         <Link href={`/${data.username}`} passHref>
-            <a className={styles.ProfileLink}>
-                <Button className={styles.ProfileButton} variant='contained'>
+            <a className="grow">
+                <Button className="w-full" variant='contained'>
                     My profile
                 </Button>
             </a>
@@ -105,7 +104,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = (props: LogoutButtonProps) => 
         if (props.setToken) props.setToken('')
     }
     return (
-        <Button onClick={handleClick} className={styles.LogoutButton}>
+        <Button onClick={handleClick} className="p-1.5 min-w-0">
             <LogoutIcon />
         </Button>
     )

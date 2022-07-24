@@ -6,7 +6,6 @@ import router from "next/router"
 import React, { FormEvent } from "react"
 import { getURL } from '../helpers/config'
 import Cookies from 'js-cookie'
-import styles from '../styles/new-post.module.scss'
 import Photo from "./post/photo"
 
 type NewPostProps = {
@@ -54,7 +53,7 @@ const NewPost = (props: NewPostProps) => {
     }
 
     if (props.postID) return (
-        <Paper className={styles.Card} elevation={4}>
+        <Paper className="max-w-md w-full p-4" elevation={4}>
             <Stack spacing='15px'>
                 <Photo src={props.postID} />
                 <form onSubmit={handlePostSubmit}>

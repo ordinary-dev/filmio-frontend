@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack'
 import Link from 'next/link'
 import React from 'react'
 import { ProfileResponse } from '../../types/profile-response'
-import styles from '../../styles/profile-card.module.scss'
 import ProfileName from './profile-name'
 import ProfilePicture from './profile-picture'
 import useSWR from 'swr'
@@ -29,7 +28,7 @@ const ProfileCard = (props: ProfileCardProps) => {
     const showUploadBtn = props.username === data.username
     
     return (
-        <Paper className={styles.ProfileCard}>
+        <Paper className="w-full max-w-md p-4">
             <Stack direction='row' spacing='15px'>
                 <ProfilePicture url={data.profile_photo_url} />
                 <Stack justifyContent='space-around'>

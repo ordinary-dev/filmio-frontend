@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import styles from '../../styles/post.module.scss'
 import useSWR from 'swr'
 import { getURL } from '../../helpers/config'
 
@@ -31,7 +30,7 @@ const Photo = (props: PhotoProps) => {
 
     const photoUrl = getURL(`/photos/${props.src}/content`)
     return (
-        <div className={styles.Placeholder}>
+        <div className="mx-auto">
             <Image src={photoUrl} width={width} height={height} alt={alt} />
         </div>
     )

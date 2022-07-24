@@ -1,4 +1,3 @@
-import styles from '../../styles/post.module.scss'
 import Link from 'next/link'
 import { getURL } from '../../helpers/config'
 import { advFetch } from '../../helpers/fetchers'
@@ -15,13 +14,13 @@ const EditButton = (props: EditButtonProps) => {
     const url = getURL('/me/')
     const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)
 
-    if (error) return <div className={styles.Info}>Error</div>
-    if (!data) return <div className={styles.Info}>Loading...</div>
+    if (error) return <div className="text-xs font-mono">Error</div>
+    if (!data) return <div className="text-xs font-mono">Loading...</div>
 
     const editURL = `/edit/${encodeURI(props.postID)}`
 
     if (props.author === data.username) return (
-        <div className={styles.Info}>
+        <div className="text-xs font-mono">
             <Link href={editURL} passHref>
                 <a>Edit</a>
             </Link>

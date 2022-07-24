@@ -2,7 +2,6 @@ import { LinearProgress, Stack } from "@mui/material"
 import Paper from "@mui/material/Paper"
 import { getURL } from "../helpers/config"
 import useSWR from 'swr'
-import styles from '../styles/photos-counter.module.scss'
 
 type PhotoCounterProps = {
     username: string
@@ -22,10 +21,10 @@ const PhotoCounter: React.FC<PhotoCounterProps> = (props: PhotoCounterProps) => 
     if (!data) return <div>Loading...</div>
     
     return (
-        <Paper className={styles.Card} elevation={4}>
+        <Paper className="w-full max-w-md p-4" elevation={4}>
             <Stack spacing='15px' direction='row' alignItems={'center'}>
                 <div>Photos: {data}/36</div>
-                <LinearProgress className={styles.Progress} variant="determinate" value={data / 36 * 100} />
+                <LinearProgress className="grow" variant="determinate" value={data / 36 * 100} />
             </Stack>
         </Paper>
     )
