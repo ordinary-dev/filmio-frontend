@@ -4,8 +4,9 @@ Your personal album, but you can only upload 36 photos.
 ## Configuration
 You can create the file named `.env.local` and change the default settings.
 ```
-BACKEND_HOST=localhost
-BACKEND_PORT=8000
+NEXT_PUBLIC_BACKEND_SCHEME=http
+NEXT_PUBLIC_BACKEND_HOST=localhost
+NEXT_PUBLIC_BACKEND_PORT=8000
 ```
 See also: [Film.io backend server](https://github.com/ordinary-dev/filmio-backend)
 
