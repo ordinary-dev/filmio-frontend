@@ -3,7 +3,8 @@ import { getURL } from '../../helpers/config'
 import { advFetch } from '../../helpers/fetchers'
 import { ProfileResponse } from '../../types/profile-response'
 import useSWR from 'swr'
-
+import EditIcon from '@mui/icons-material/Edit'
+import InfoPanel from './info-panel'
 
 type EditButtonProps = {
     author: string,
@@ -18,13 +19,14 @@ const EditButton = (props: EditButtonProps) => {
     if (!data) return <div className="text-xs font-mono">Loading...</div>
 
     const editURL = `/edit/${encodeURI(props.postID)}`
+    const icon = <EditIcon fontSize="inherit" />
 
     if (props.author === data.username) return (
-        <div className="text-xs font-mono">
-            <Link href={editURL} passHref>
-                <a>Edit</a>
-            </Link>
-        </div>
+        <Link href={editURL} passHref>
+            <a>
+                <InfoPanel icon={icon} text="Edit" />
+            </a>
+        </Link>
     )
     
     return <></>

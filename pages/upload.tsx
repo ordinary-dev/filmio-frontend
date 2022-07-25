@@ -35,7 +35,7 @@ const Upload = () => {
             formData.append("file", file)
 
             // Upload file and get it's filename
-            const url = getURL('/photos/')
+            const url = getURL('/photos')
             const options = {
                 method: 'POST',
                 headers: {
@@ -62,7 +62,7 @@ const Upload = () => {
 
     return (
         <Stack spacing='30px' alignItems={'center'}>
-            <Paper className="max-w-md w-full p-4" elevation={4}>
+            <Paper className="max-w-md w-full p-4">
                 <Stack spacing={'15px'}>
                     <Stack direction='row' alignItems='center' spacing='15px'>
                         <Button className="min-w-0 p-1.5" type="submit" onClick={() => router.back()}>

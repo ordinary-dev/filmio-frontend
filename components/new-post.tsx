@@ -53,7 +53,7 @@ const NewPost = (props: NewPostProps) => {
     }
 
     if (props.postID) return (
-        <Paper className="max-w-md w-full p-4" elevation={4}>
+        <Paper className="max-w-md w-full p-4">
             <Stack spacing='15px'>
                 <Photo src={props.postID} />
                 <form onSubmit={handlePostSubmit}>

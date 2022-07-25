@@ -1,4 +1,5 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import InfoPanel from './info-panel'
 
 type DateInfoProps = {
     timestamp?: number
@@ -7,11 +8,9 @@ type DateInfoProps = {
 const DateInfo = (props: DateInfoProps) => {
     if (props.timestamp) {
         const date = new Date(props.timestamp * 1000).toLocaleString('en-US')
+        const icon = <AccessTimeIcon fontSize="inherit" />
         return (
-            <div className="text-xs font-mono">
-                <AccessTimeIcon fontSize="inherit" />
-                {date}
-            </div>
+            <InfoPanel icon={icon} text={date} />
         )
     }
     return <></>

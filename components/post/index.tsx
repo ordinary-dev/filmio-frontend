@@ -23,7 +23,7 @@ const Post = (props: PostProps) => {
     if (!data) return <div>Loading...</div>
 
     return (
-        <Paper className="p-4 w-full max-w-md" elevation={4}>
+        <Paper className="p-4 w-full max-w-md">
             <Stack spacing='15px'>
                 <Photo src={data.photo_id} />
                 <Title text={data.title} />

@@ -3,7 +3,6 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import PhotoCounter from '../components/photos-counter'
 import Post from '../components/post'
 import ProfileCard from '../components/profile-card'
 import useSWR from 'swr'
@@ -38,7 +37,6 @@ const Profile: NextPage = () => {
                 <title>{getTitle(username)}</title>
             </Head>
             {username && <ProfileCard username={username} />}
-            {username && <PhotoCounter username={username} />}
             {data.map((post, index) => (
                 <Post key={index} postID={post}/>
             ))}

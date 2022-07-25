@@ -29,7 +29,7 @@ const AuthorizationPanel = () => {
     }
 
     return (
-        <Paper style={cardStyle} elevation={4}>
+        <Paper style={cardStyle}>
             <Stack spacing={2}>
                 <Tabs onChange={handleTabChange} value={selectedTabId}>
                     <Tab label="Login" />
