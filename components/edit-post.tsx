@@ -65,7 +65,7 @@ const EditPostForm: React.FC<NewPostProps> = (props: NewPostProps) => {
     if (!data) return <div>Loading...</div>
             
     return (
-        <Paper className="w-full max-w-md p-4" elevation={4}>
+        <Paper className="w-full max-w-md p-4">
             <Stack spacing='15px'>
                 <form onSubmit={handlePostSubmit}>
                     <Stack spacing='15px'>

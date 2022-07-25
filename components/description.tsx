@@ -18,7 +18,7 @@ const Description = () => {
         if (tokenCookie) setToken(tokenCookie)
     }, [])
     return (
-        <Paper className="p-4 max-w-md w-full" elevation={4}>
+        <Paper className="p-4 max-w-md w-full">
             <Stack spacing='15px'>
                 <div className="italic font-bold text-xl text-center">Film.io</div>
                 <div>
@@ -65,7 +65,7 @@ const ActionPanel: React.FC<ActionPanelProps> = (props: ActionPanelProps) => {
  */
 const ProfileButton = () => {
     /* Try to get the username */
-    const url = getURL('/me/')
+    const url = getURL('/me')
     const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)        
 
     if (error) return (

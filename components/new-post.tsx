@@ -33,7 +33,7 @@ const NewPost = (props: NewPostProps) => {
             title: target.post_title.value,
             photo_id: props.postID
         }
-        const url = getURL('/posts/')
+        const url = getURL('/posts')
         const options = {
             method: 'POST',
             headers: {
@@ -53,7 +53,7 @@ const NewPost = (props: NewPostProps) => {
     }
 
     if (props.postID) return (
-        <Paper className="max-w-md w-full p-4" elevation={4}>
+        <Paper className="max-w-md w-full p-4">
             <Stack spacing='15px'>
                 <Photo src={props.postID} />
                 <form onSubmit={handlePostSubmit}>

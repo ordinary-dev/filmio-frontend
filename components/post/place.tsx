@@ -1,5 +1,6 @@
 import PlaceIcon from '@mui/icons-material/Place'
 import Link from 'next/link'
+import InfoPanel from './info-panel'
 
 type PlaceInfoProps = {
     place?: string
@@ -7,13 +8,14 @@ type PlaceInfoProps = {
 
 const PlaceInfo = (props: PlaceInfoProps) => {
     if (props.place) {
+        const url = `/place/${props.place}`
+        const icon = <PlaceIcon fontSize="inherit" />
         return (
-            <div className="text-xs font-mono">
-                <PlaceIcon fontSize="inherit" />
-                <Link href={`/place/${props.place}`}>
-                    <a>{props.place}</a>
-                </Link>
-            </div>
+            <Link href={url} passHref>
+                <a>
+                    <InfoPanel icon={icon} text={props.place} />
+                </a>
+            </Link>
         )
     }
     return <></>
