@@ -33,7 +33,7 @@ const NewPost = (props: NewPostProps) => {
             title: target.post_title.value,
             photo_id: props.postID
         }
-        const url = getURL('/posts/')
+        const url = getURL('/posts')
         const options = {
             method: 'POST',
             headers: {

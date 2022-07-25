@@ -19,7 +19,7 @@ type ProfileCardProps = {
 /** Shows basic profile information.
  * */
 const ProfileCard = (props: ProfileCardProps) => {
-    const url = getURL('/me/')
+    const url = getURL('/me')
     const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)
 
     if (error) return <div>Error</div>

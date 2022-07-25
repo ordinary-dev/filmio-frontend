@@ -11,7 +11,7 @@ type EditButtonProps = {
 }
 
 const EditButton = (props: EditButtonProps) => {
-    const url = getURL('/me/')
+    const url = getURL('/me')
     const { data, error } = useSWR<ProfileResponse, Error>(url, advFetch)
 
     if (error) return <div className="text-xs font-mono">Error</div>
